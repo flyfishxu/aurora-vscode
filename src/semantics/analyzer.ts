@@ -90,16 +90,33 @@ export class SemanticAnalyzer {
 
     private collectClassDefinition(lines: string[], startLine: number, diagnostics: vscode.Diagnostic[]): void {
         const line = lines[startLine].trim();
-        const classMatch = line.match(/^class\s+(\w+)/);
+        const classMatch = line.match(/^class\s+(\w+)(?:\s*\(([^)]*)\))?/);
         if (!classMatch) return;
 
         const className = classMatch[1];
+        const primaryConstructorParams = classMatch[2];
         const classInfo: ClassInfo = {
             name: className,
             fields: new Map(),
             methods: new Map(),
             line: startLine
         };
+        
+        // Parse primary constructor parameters if they exist
+        if (primaryConstructorParams) {
+            const params = parseParameters(primaryConstructorParams);
+            for (const param of params) {
+                classInfo.fields.set(param.name, param.type);
+            }
+            
+            // Add primary constructor method
+            classInfo.methods.set('constructor', {
+                name: 'constructor',
+                params: params,
+                returnType: className,
+                line: startLine
+            });
+        }
         
         let braceDepth = 0;
         let inClass = false;
@@ -230,7 +247,7 @@ export class SemanticAnalyzer {
             const startCol = match.index;
 
             const beforeMatch = line.substring(0, startCol).trimEnd();
-            if (beforeMatch.endsWith('new')) {
+            if (beforeMatch.endsWith('new') || this.isClassInstantiation(line, startCol)) {
                 this.checkConstructorCall(funcName, argsStr, lineNum, startCol, match, diagnostics);
                 continue;
             }
@@ -269,6 +286,13 @@ export class SemanticAnalyzer {
         }
     }
 
+    private isClassInstantiation(line: string, startCol: number): boolean {
+        // Check if this is a class instantiation (let obj = ClassName(...))
+        const beforeMatch = line.substring(0, startCol).trimEnd();
+        const assignmentMatch = beforeMatch.match(/(let|var)\s+\w+\s*=\s*$/);
+        return assignmentMatch !== null;
+    }
+
     private checkConstructorCall(funcName: string, argsStr: string, lineNum: number, startCol: number, match: RegExpExecArray, diagnostics: vscode.Diagnostic[]): void {
         if (!this.classes.has(funcName)) {
             const range = new vscode.Range(lineNum, startCol, lineNum, startCol + funcName.length);
@@ -295,6 +319,19 @@ export class SemanticAnalyzer {
             }
             
             this.checkArgumentTypes(funcName, args, argsStr, constructor, lineNum, startCol, diagnostics);
+        } else {
+            // Check for implicit constructor (no explicit constructor defined)
+            const args = parseArguments(argsStr);
+            const fieldCount = classInfo.fields.size;
+            
+            if (args.length !== fieldCount) {
+                const range = new vscode.Range(lineNum, startCol, lineNum, match.index + match[0].length);
+                diagnostics.push(new vscode.Diagnostic(
+                    range,
+                    `Implicit constructor of class '${funcName}' expects ${fieldCount} argument(s) (one for each field), but got ${args.length}`,
+                    vscode.DiagnosticSeverity.Error
+                ));
+            }
         }
     }
 

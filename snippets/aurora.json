@@ -203,27 +203,70 @@
     "prefix": "class",
     "body": [
       "class ${1:ClassName} {",
-      "\tlet ${2:field}: ${3:int}",
+      "\tlet ${2:fieldName}: ${3:int}",
       "\t",
-      "\tconstructor(${4:param}: ${3:int}) {",
-      "\t\tthis.${2:field} = ${4:param}",
+      "\tconstructor(${4:paramName}: ${3:int}) {",
+      "\t\tthis.${2:fieldName} = ${4:paramName}",
       "\t}",
       "\t",
-      "\tfn ${5:method}() -> ${6:void} {",
+      "\tfn ${5:methodName}() -> ${6:void} {",
       "\t\t${7:// method body}",
       "\t}",
       "}"
     ],
     "description": "Create a class with constructor and method"
   },
+  "Primary Constructor Class": {
+    "prefix": "pclass",
+    "body": [
+      "class ${1:ClassName}(let ${2:fieldName}: ${3:int}) {",
+      "\tfn ${4:methodName}() -> ${5:void} {",
+      "\t\t${6:// method body}",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a class with primary constructor (Kotlin/Swift style)"
+  },
+  "Primary Constructor with Modifiers": {
+    "prefix": "pclassm",
+    "body": [
+      "class ${1:ClassName}(pub let ${2:publicField}: ${3:int}, priv var ${4:privateField}: ${5:double}) {",
+      "\tfn ${6:methodName}() -> ${7:void} {",
+      "\t\t${8:// method body}",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a class with primary constructor and access modifiers"
+  },
+  "Class with Multiple Constructors": {
+    "prefix": "mclass",
+    "body": [
+      "class ${1:ClassName} {",
+      "\tlet ${2:fieldName}: ${3:int}",
+      "\t",
+      "\tconstructor(${4:paramName}: ${3:int}) {",
+      "\t\tthis.${2:fieldName} = ${4:paramName}",
+      "\t}",
+      "\t",
+      "\tconstructor() {",
+      "\t\tthis.${2:fieldName} = ${5:0}",
+      "\t}",
+      "\t",
+      "\tfn ${6:methodName}() -> ${7:void} {",
+      "\t\t${8:// method body}",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a class with multiple constructors (overloading)"
+  },
   "Simple Class": {
     "prefix": "classs",
     "body": [
       "class ${1:ClassName} {",
-      "\tlet ${2:field}: ${3:int}",
+      "\tlet ${2:fieldName}: ${3:int}",
       "\t",
-      "\tconstructor(${4:value}: ${3:int}) {",
-      "\t\tthis.${2:field} = ${4:value}",
+      "\tconstructor(${4:paramName}: ${3:int}) {",
+      "\t\tthis.${2:fieldName} = ${4:paramName}",
       "\t}",
       "}"
     ],
@@ -232,8 +275,8 @@
   "Constructor": {
     "prefix": "constructor",
     "body": [
-      "constructor(${1:param}: ${2:int}) {",
-      "\tthis.${3:field} = ${1:param}",
+      "constructor(${1:paramName}: ${2:int}) {",
+      "\tthis.${3:fieldName} = ${1:paramName}",
       "}"
     ],
     "description": "Create a constructor"
@@ -241,7 +284,7 @@
   "Method": {
     "prefix": "method",
     "body": [
-      "fn ${1:methodName}(${2:param}: ${3:int}) -> ${4:void} {",
+      "fn ${1:methodName}(${2:paramName}: ${3:int}) -> ${4:void} {",
       "\t${5:// method body}",
       "}"
     ],
@@ -250,7 +293,7 @@
   "Public Method": {
     "prefix": "pubfn",
     "body": [
-      "pub fn ${1:methodName}(${2:param}: ${3:int}) -> ${4:void} {",
+      "pub fn ${1:methodName}(${2:paramName}: ${3:int}) -> ${4:void} {",
       "\t${5:// method body}",
       "}"
     ],
@@ -259,7 +302,7 @@
   "Private Method": {
     "prefix": "privfn",
     "body": [
-      "priv fn ${1:methodName}(${2:param}: ${3:int}) -> ${4:void} {",
+      "priv fn ${1:methodName}(${2:paramName}: ${3:int}) -> ${4:void} {",
       "\t${5:// method body}",
       "}"
     ],
@@ -268,8 +311,8 @@
   "Getter Method": {
     "prefix": "getter",
     "body": [
-      "fn get${1:Field}() -> ${2:int} {",
-      "\treturn this.${3:field}",
+      "fn get${1:FieldName}() -> ${2:int} {",
+      "\treturn this.${3:fieldName}",
       "}"
     ],
     "description": "Create a getter method"
@@ -277,8 +320,8 @@
   "Setter Method": {
     "prefix": "setter",
     "body": [
-      "fn set${1:Field}(${2:value}: ${3:int}) {",
-      "\tthis.${4:field} = ${2:value}",
+      "fn set${1:FieldName}(${2:valueName}: ${3:int}) {",
+      "\tthis.${4:fieldName} = ${2:valueName}",
       "}"
     ],
     "description": "Create a setter method"
@@ -286,28 +329,28 @@
   "New Object": {
     "prefix": "new",
     "body": [
-      "let ${1:obj} = ${2:ClassName}(${3:args})"
+      "let ${1:objectName} = ${2:ClassName}(${3:args})"
     ],
     "description": "Create a new object"
   },
   "This Reference": {
     "prefix": "this",
     "body": [
-      "this.${1:field}"
+      "this.${1:fieldName}"
     ],
     "description": "Reference to current object"
   },
   "Member Access": {
     "prefix": "dot",
     "body": [
-      "${1:object}.${2:member}"
+      "${1:objectName}.${2:memberName}"
     ],
     "description": "Access object member"
   },
   "Method Call": {
     "prefix": "call",
     "body": [
-      "${1:object}.${2:method}(${3:args})"
+      "${1:objectName}.${2:methodName}(${3:args})"
     ],
     "description": "Call object method"
   },
@@ -319,24 +362,38 @@
       "extern printd(x)",
       "",
       "class ${2:ClassName} {",
-      "\tlet ${3:field}: ${4:int}",
+      "\tlet ${3:fieldName}: ${4:int}",
       "\t",
-      "\tconstructor(${5:param}: ${4:int}) {",
-      "\t\tthis.${3:field} = ${5:param}",
+      "\tconstructor(${5:paramName}: ${4:int}) {",
+      "\t\tthis.${3:fieldName} = ${5:paramName}",
       "\t}",
       "\t",
-      "\tfn ${6:method}() -> ${4:int} {",
-      "\t\treturn this.${3:field}",
+      "\tfn ${6:methodName}() -> ${4:int} {",
+      "\t\treturn this.${3:fieldName}",
       "\t}",
       "}",
       "",
       "fn main() -> int {",
-      "\tlet ${7:obj} = ${2:ClassName}(${8:value})",
-      "\tprintd(${7:obj}.${6:method}())",
+      "\tlet ${7:objectName} = ${2:ClassName}(${8:value})",
+      "\tprintd(${7:objectName}.${6:methodName}())",
       "\treturn 0",
       "}"
     ],
     "description": "Full OOP program template"
+  },
+  "Implicit Constructor Class": {
+    "prefix": "iclass",
+    "body": [
+      "class ${1:ClassName} {",
+      "\tlet ${2:fieldName}: ${3:int}",
+      "\tlet ${4:anotherField}: ${5:double}",
+      "\t",
+      "\tfn ${6:methodName}() -> ${7:void} {",
+      "\t\t${8:// method body}",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a class with implicit constructor (no explicit constructor needed)"
   }
 }
 

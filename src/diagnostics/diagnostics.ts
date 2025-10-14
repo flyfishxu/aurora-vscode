@@ -139,6 +139,43 @@ function checkCommonSyntaxIssues(document: vscode.TextDocument): vscode.Diagnost
             ));
         }
         
+        // Constructor definition missing opening brace
+        if (trimmed.match(/^constructor\s*\([^)]*\)\s*$/) && !trimmed.endsWith('{')) {
+            const range = new vscode.Range(lineNum, 0, lineNum, line.length);
+            diagnostics.push(new vscode.Diagnostic(
+                range,
+                "Constructor definition missing opening '{' brace",
+                vscode.DiagnosticSeverity.Error
+            ));
+        }
+        
+        // Class definition missing opening brace
+        if (trimmed.match(/^class\s+\w+\s*(?:\([^)]*\))?\s*$/) && !trimmed.endsWith('{')) {
+            const range = new vscode.Range(lineNum, 0, lineNum, line.length);
+            diagnostics.push(new vscode.Diagnostic(
+                range,
+                "Class definition missing opening '{' brace",
+                vscode.DiagnosticSeverity.Error
+            ));
+        }
+        
+        // Check for camelCase naming convention
+        const camelCaseRegex = /\b[a-z][a-zA-Z0-9]*\b/g;
+        const snakeCaseRegex = /\b[a-z]+(_[a-z]+)+\b/g;
+        let match;
+        
+        // Warn about snake_case in favor of camelCase
+        while ((match = snakeCaseRegex.exec(line)) !== null) {
+            const range = new vscode.Range(lineNum, match.index, lineNum, match.index + match[0].length);
+            const diagnostic = new vscode.Diagnostic(
+                range,
+                "Consider using camelCase instead of snake_case for better AuroraLang style",
+                vscode.DiagnosticSeverity.Hint
+            );
+            diagnostic.tags = [vscode.DiagnosticTag.Unnecessary];
+            diagnostics.push(diagnostic);
+        }
+        
         // Optional semicolons (informational)
         if (trimmed.endsWith(';') && !trimmed.startsWith('extern')) {
             const semiPos = line.lastIndexOf(';');

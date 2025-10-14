@@ -2,6 +2,11 @@
 
 Official Visual Studio Code extension for [AuroraLang](https://github.com/flyfishxu/AuroraLang) - A modern LLVM-powered programming language with null safety.
 
+## Highlights
+
+- Syntax highlighting, snippets, and command palette integration for AuroraLang
+- Null-aware hovers updated to reflect that optional equality/inequality with `null` produces boolean results
+
 ## Installation
 
 ### From Source
@@ -94,4 +99,3 @@ MIT License - See [LICENSE](LICENSE) for details.
 ---
 
 **Built with ❤️ for AuroraLang**
-

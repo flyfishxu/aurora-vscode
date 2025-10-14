@@ -1,0 +1,80 @@
+{
+  // Sample tasks configuration for AuroraLang workspace
+  // Copy this to your workspace's .vscode/tasks.json
+  
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build AuroraLang Compiler",
+      "type": "shell",
+      "command": "cmake --build ${workspaceFolder}/build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Run Current AuroraLang File",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/aurora",
+      "args": ["${file}"],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      }
+    },
+    {
+      "label": "Generate LLVM IR",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/aurora",
+      "args": [
+        "--emit-llvm",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}.ll",
+        "${file}"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Run All Examples",
+      "type": "shell",
+      "command": "for f in ${workspaceFolder}/examples/*.aur; do echo \"=== Running $f ===\"; ${workspaceFolder}/build/aurora \"$f\"; echo; done",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Clean Build",
+      "type": "shell",
+      "command": "rm -rf ${workspaceFolder}/build && mkdir ${workspaceFolder}/build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Rebuild AuroraLang Compiler",
+      "dependsOn": ["Clean Build", "Build AuroraLang Compiler"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    }
+  ]
+}
+

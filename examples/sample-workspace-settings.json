@@ -1,0 +1,42 @@
+{
+  // Sample workspace settings for AuroraLang development
+  // Copy this to your workspace's .vscode/settings.json
+  
+  // AuroraLang compiler configuration
+  "auroralang.compilerPath": "${workspaceFolder}/build/aurora",
+  "auroralang.buildPath": "${workspaceFolder}/build",
+  
+  // Editor settings optimized for AuroraLang
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "editor.rulers": [80, 100],
+  "editor.formatOnSave": false,
+  "editor.minimap.enabled": true,
+  
+  // File associations
+  "files.associations": {
+    "*.aur": "aurora"
+  },
+  
+  // Enable bracket colorization for better readability
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  
+  // Code completion settings
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.wordBasedSuggestions": true,
+  
+  // Terminal settings for running AuroraLang programs
+  "terminal.integrated.env.osx": {
+    "PATH": "${env:PATH}:${workspaceFolder}/build"
+  },
+  "terminal.integrated.env.linux": {
+    "PATH": "${env:PATH}:${workspaceFolder}/build"
+  }
+}
+

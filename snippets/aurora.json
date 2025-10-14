@@ -1,0 +1,342 @@
+{
+  "Function Definition": {
+    "prefix": "fn",
+    "body": [
+      "fn ${1:name}(${2:params}) {",
+      "\t${3:// function body}",
+      "\treturn ${4:0}",
+      "}"
+    ],
+    "description": "Define a function (no semicolons needed!)"
+  },
+  "Function with Type Annotations": {
+    "prefix": "fnt",
+    "body": [
+      "fn ${1:name}(${2:param}: ${3:int}) -> ${4:int} {",
+      "\t${5:// function body}",
+      "\treturn ${6:0}",
+      "}"
+    ],
+    "description": "Define a typed function"
+  },
+  "External Function": {
+    "prefix": "extern",
+    "body": [
+      "extern ${1:function_name}(${2:params})"
+    ],
+    "description": "Declare an external function (no semicolon needed)"
+  },
+  "Main Function": {
+    "prefix": "main",
+    "body": [
+      "fn main() {",
+      "\t${1:// main code}",
+      "\treturn 0",
+      "}"
+    ],
+    "description": "Create main function"
+  },
+  "If Statement": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition} {",
+      "\t${2:// code}",
+      "}"
+    ],
+    "description": "If statement"
+  },
+  "If-Else Statement": {
+    "prefix": "ifelse",
+    "body": [
+      "if ${1:condition} {",
+      "\t${2:// if code}",
+      "} else {",
+      "\t${3:// else code}",
+      "}"
+    ],
+    "description": "If-else statement"
+  },
+  "Else If Chain": {
+    "prefix": "elseif",
+    "body": [
+      "if ${1:condition1} {",
+      "\t${2:// code}",
+      "} else if ${3:condition2} {",
+      "\t${4:// code}",
+      "} else {",
+      "\t${5:// code}",
+      "}"
+    ],
+    "description": "Else-if chain"
+  },
+  "While Loop": {
+    "prefix": "while",
+    "body": [
+      "while ${1:condition} {",
+      "\t${2:// loop body}",
+      "}"
+    ],
+    "description": "While loop"
+  },
+  "For Loop": {
+    "prefix": "for",
+    "body": [
+      "for ${1:i} in ${2:0}..${3:10} {",
+      "\t${4:// loop body}",
+      "}"
+    ],
+    "description": "For loop with range"
+  },
+  "Infinite Loop": {
+    "prefix": "loop",
+    "body": [
+      "loop {",
+      "\t${1:// loop body}",
+      "\tif ${2:condition} {",
+      "\t\tbreak",
+      "\t}",
+      "}"
+    ],
+    "description": "Infinite loop"
+  },
+  "Break Statement": {
+    "prefix": "break",
+    "body": [
+      "break"
+    ],
+    "description": "Break out of loop"
+  },
+  "Continue Statement": {
+    "prefix": "continue",
+    "body": [
+      "continue"
+    ],
+    "description": "Continue to next iteration"
+  },
+  "Let Declaration": {
+    "prefix": "let",
+    "body": [
+      "let ${1:name} = ${2:value}"
+    ],
+    "description": "Immutable variable declaration"
+  },
+  "Let with Type": {
+    "prefix": "lett",
+    "body": [
+      "let ${1:name}: ${2:int} = ${3:value}"
+    ],
+    "description": "Typed immutable variable"
+  },
+  "Let with Optional Type": {
+    "prefix": "leto",
+    "body": [
+      "let ${1:name}: ${2:int}? = ${3:null}"
+    ],
+    "description": "Optional (nullable) variable"
+  },
+  "Var Declaration": {
+    "prefix": "var",
+    "body": [
+      "var ${1:name} = ${2:value}"
+    ],
+    "description": "Mutable variable declaration"
+  },
+  "Var with Type": {
+    "prefix": "vart",
+    "body": [
+      "var ${1:name}: ${2:int} = ${3:value}"
+    ],
+    "description": "Typed mutable variable"
+  },
+  "Print": {
+    "prefix": "printd",
+    "body": [
+      "printd(${1:value})"
+    ],
+    "description": "Print a value"
+  },
+  "Return Statement": {
+    "prefix": "ret",
+    "body": [
+      "return ${1:value}"
+    ],
+    "description": "Return from function"
+  },
+  "Full Program Template": {
+    "prefix": "template",
+    "body": [
+      "# ${1:Program Description}",
+      "",
+      "extern printd(x)",
+      "",
+      "fn main() {",
+      "\t${2:// Your code here}",
+      "\treturn 0",
+      "}"
+    ],
+    "description": "Full program template"
+  },
+  "Function with Type Safety": {
+    "prefix": "fnsafe",
+    "body": [
+      "fn ${1:name}(${2:param}: ${3:int}) -> ${4:int}? {",
+      "\tif ${5:condition} {",
+      "\t\treturn null",
+      "\t}",
+      "\treturn ${6:value}",
+      "}"
+    ],
+    "description": "Function with optional return type"
+  },
+  "Comment Block": {
+    "prefix": "comment",
+    "body": [
+      "# ==============================================================================",
+      "# ${1:Section Title}",
+      "# ==============================================================================",
+      "# ${2:Description}",
+      "# =============================================================================="
+    ],
+    "description": "Create a comment block"
+  },
+  "Class Definition": {
+    "prefix": "class",
+    "body": [
+      "class ${1:ClassName} {",
+      "\tlet ${2:field}: ${3:int}",
+      "\t",
+      "\tconstructor(${4:param}: ${3:int}) {",
+      "\t\tthis.${2:field} = ${4:param}",
+      "\t}",
+      "\t",
+      "\tfn ${5:method}() -> ${6:void} {",
+      "\t\t${7:// method body}",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a class with constructor and method"
+  },
+  "Simple Class": {
+    "prefix": "classs",
+    "body": [
+      "class ${1:ClassName} {",
+      "\tlet ${2:field}: ${3:int}",
+      "\t",
+      "\tconstructor(${4:value}: ${3:int}) {",
+      "\t\tthis.${2:field} = ${4:value}",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a simple class"
+  },
+  "Constructor": {
+    "prefix": "constructor",
+    "body": [
+      "constructor(${1:param}: ${2:int}) {",
+      "\tthis.${3:field} = ${1:param}",
+      "}"
+    ],
+    "description": "Create a constructor"
+  },
+  "Method": {
+    "prefix": "method",
+    "body": [
+      "fn ${1:methodName}(${2:param}: ${3:int}) -> ${4:void} {",
+      "\t${5:// method body}",
+      "}"
+    ],
+    "description": "Create a method"
+  },
+  "Public Method": {
+    "prefix": "pubfn",
+    "body": [
+      "pub fn ${1:methodName}(${2:param}: ${3:int}) -> ${4:void} {",
+      "\t${5:// method body}",
+      "}"
+    ],
+    "description": "Create a public method"
+  },
+  "Private Method": {
+    "prefix": "privfn",
+    "body": [
+      "priv fn ${1:methodName}(${2:param}: ${3:int}) -> ${4:void} {",
+      "\t${5:// method body}",
+      "}"
+    ],
+    "description": "Create a private method"
+  },
+  "Getter Method": {
+    "prefix": "getter",
+    "body": [
+      "fn get${1:Field}() -> ${2:int} {",
+      "\treturn this.${3:field}",
+      "}"
+    ],
+    "description": "Create a getter method"
+  },
+  "Setter Method": {
+    "prefix": "setter",
+    "body": [
+      "fn set${1:Field}(${2:value}: ${3:int}) {",
+      "\tthis.${4:field} = ${2:value}",
+      "}"
+    ],
+    "description": "Create a setter method"
+  },
+  "New Object": {
+    "prefix": "new",
+    "body": [
+      "let ${1:obj} = ${2:ClassName}(${3:args})"
+    ],
+    "description": "Create a new object"
+  },
+  "This Reference": {
+    "prefix": "this",
+    "body": [
+      "this.${1:field}"
+    ],
+    "description": "Reference to current object"
+  },
+  "Member Access": {
+    "prefix": "dot",
+    "body": [
+      "${1:object}.${2:member}"
+    ],
+    "description": "Access object member"
+  },
+  "Method Call": {
+    "prefix": "call",
+    "body": [
+      "${1:object}.${2:method}(${3:args})"
+    ],
+    "description": "Call object method"
+  },
+  "Full OOP Example": {
+    "prefix": "ooptemplate",
+    "body": [
+      "# ${1:Class Description}",
+      "",
+      "extern printd(x)",
+      "",
+      "class ${2:ClassName} {",
+      "\tlet ${3:field}: ${4:int}",
+      "\t",
+      "\tconstructor(${5:param}: ${4:int}) {",
+      "\t\tthis.${3:field} = ${5:param}",
+      "\t}",
+      "\t",
+      "\tfn ${6:method}() -> ${4:int} {",
+      "\t\treturn this.${3:field}",
+      "\t}",
+      "}",
+      "",
+      "fn main() -> int {",
+      "\tlet ${7:obj} = ${2:ClassName}(${8:value})",
+      "\tprintd(${7:obj}.${6:method}())",
+      "\treturn 0",
+      "}"
+    ],
+    "description": "Full OOP program template"
+  }
+}
+

@@ -1,0 +1,39 @@
+{
+  // Sample launch configuration for debugging AuroraLang programs
+  // Copy this to your workspace's .vscode/launch.json
+  
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "aurora",
+      "request": "launch",
+      "name": "Debug Current File",
+      "program": "${file}",
+      "stopOnEntry": true
+    },
+    {
+      "type": "aurora",
+      "request": "launch",
+      "name": "Debug basic_arithmetic.aur",
+      "program": "${workspaceFolder}/examples/basic_arithmetic.aur",
+      "stopOnEntry": false
+    },
+    {
+      "type": "aurora",
+      "request": "launch",
+      "name": "Debug control_flow.aur",
+      "program": "${workspaceFolder}/examples/control_flow.aur",
+      "stopOnEntry": false
+    },
+    {
+      "type": "aurora",
+      "request": "launch",
+      "name": "Debug with Custom Compiler",
+      "program": "${file}",
+      "auroraPath": "${workspaceFolder}/build/aurora",
+      "stopOnEntry": true,
+      "trace": false
+    }
+  ]
+}
+

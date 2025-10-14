@@ -1,0 +1,248 @@
+{
+  "name": "auroralang",
+  "displayName": "AuroraLang",
+  "description": "Language support for AuroraLang - A modern LLVM-powered language with modules and built-in functions",
+  "version": "0.6.0",
+  "publisher": "auroralang",
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Debuggers",
+    "Snippets"
+  ],
+  "keywords": [
+    "auroralang",
+    "aurora",
+    "llvm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flyfishxu/AuroraLang"
+  },
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "aurora",
+        "aliases": [
+          "AuroraLang",
+          "aurora"
+        ],
+        "extensions": [
+          ".aur"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./images/file-icon.png",
+          "dark": "./images/file-icon.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "aurora",
+        "scopeName": "source.aurora",
+        "path": "./syntaxes/aurora.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "aurora",
+        "path": "./snippets/aurora.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "auroralang.run",
+        "title": "Run AuroraLang File",
+        "category": "AuroraLang",
+        "icon": "$(play)"
+      },
+      {
+        "command": "auroralang.runFile",
+        "title": "Run Current File",
+        "category": "AuroraLang"
+      },
+      {
+        "command": "auroralang.emitLLVM",
+        "title": "Emit LLVM IR",
+        "category": "AuroraLang"
+      },
+      {
+        "command": "auroralang.check",
+        "title": "Check for Errors",
+        "category": "AuroraLang"
+      },
+      {
+        "command": "auroralang.format",
+        "title": "Format Document",
+        "category": "AuroraLang"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "auroralang.runFile",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "editorLangId == aurora"
+      },
+      {
+        "command": "auroralang.format",
+        "key": "shift+alt+f",
+        "mac": "shift+alt+f",
+        "when": "editorLangId == aurora"
+      },
+      {
+        "command": "auroralang.check",
+        "key": "ctrl+shift+c",
+        "mac": "cmd+shift+c",
+        "when": "editorLangId == aurora"
+      }
+    ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "auroralang.run",
+          "when": "resourceLangId == aurora",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "auroralang.runFile",
+          "when": "resourceLangId == aurora",
+          "group": "navigation"
+        },
+        {
+          "command": "auroralang.emitLLVM",
+          "when": "resourceLangId == aurora",
+          "group": "navigation"
+        },
+        {
+          "command": "auroralang.check",
+          "when": "resourceLangId == aurora",
+          "group": "1_modification"
+        },
+        {
+          "command": "auroralang.format",
+          "when": "resourceLangId == aurora",
+          "group": "1_modification"
+        }
+      ]
+    },
+    "breakpoints": [
+      {
+        "language": "aurora"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "aurora",
+        "label": "AuroraLang Debug",
+        "program": "./out/debugAdapter.js",
+        "runtime": "node",
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "program"
+            ],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "Absolute path to the AuroraLang file.",
+                "default": "${file}"
+              },
+              "auroraPath": {
+                "type": "string",
+                "description": "Path to the aurora compiler executable",
+                "default": "aurora"
+              },
+              "stopOnEntry": {
+                "type": "boolean",
+                "description": "Automatically stop after launch.",
+                "default": true
+              },
+              "trace": {
+                "type": "boolean",
+                "description": "Enable logging of the Debug Adapter Protocol.",
+                "default": false
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "aurora",
+            "request": "launch",
+            "name": "Debug AuroraLang File",
+            "program": "${file}",
+            "stopOnEntry": true
+          }
+        ],
+        "configurationSnippets": [
+          {
+            "label": "AuroraLang: Launch",
+            "description": "A new configuration for debugging an AuroraLang file.",
+            "body": {
+              "type": "aurora",
+              "request": "launch",
+              "name": "Debug AuroraLang File",
+              "program": "^\"\\${file}\"",
+              "stopOnEntry": true
+            }
+          }
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "AuroraLang",
+      "properties": {
+        "auroralang.compilerPath": {
+          "type": "string",
+          "default": "aurora",
+          "description": "Path to the aurora compiler executable"
+        },
+        "auroralang.buildPath": {
+          "type": "string",
+          "default": "${workspaceFolder}/build",
+          "description": "Path to the build directory containing the aurora executable"
+        },
+        "auroralang.formatOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically format code on save"
+        },
+        "auroralang.removeSemicolons": {
+          "type": "boolean",
+          "default": true,
+          "description": "Remove unnecessary semicolons when formatting (semicolons are optional in AuroraLang)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.75.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0",
+    "@vscode/debugadapter": "^1.59.0",
+    "@vscode/debugprotocol": "^1.59.0"
+  },
+  "dependencies": {
+    "@vscode/debugadapter": "^1.59.0"
+  }
+}
+

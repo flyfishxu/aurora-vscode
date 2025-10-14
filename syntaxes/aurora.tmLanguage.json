@@ -1,0 +1,197 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "AuroraLang",
+  "scopeName": "source.aurora",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#keywords" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#types" },
+    { "include": "#functions" },
+    { "include": "#constants" },
+    { "include": "#operators" },
+    { "include": "#variables" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.aurora",
+          "begin": "/\\*",
+          "end": "\\*/",
+          "captures": {
+            "0": {
+              "name": "punctuation.definition.comment.aurora"
+            }
+          }
+        },
+        {
+          "name": "comment.line.double-slash.aurora",
+          "begin": "//",
+          "end": "$",
+          "captures": {
+            "0": {
+              "name": "punctuation.definition.comment.aurora"
+            }
+          }
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.aurora",
+          "match": "\\b(if|else|while|for|loop|break|continue|in|return|match)\\b"
+        },
+        {
+          "name": "keyword.declaration.aurora",
+          "match": "\\b(fn|extern|let|var|const|class|constructor)\\b"
+        },
+        {
+          "name": "storage.modifier.aurora",
+          "match": "\\b(pub|priv|static)\\b"
+        },
+        {
+          "name": "keyword.other.aurora",
+          "match": "\\b(struct|enum|type|import|export|module|new|this)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "entity.name.type.aurora",
+          "match": "\\b(int|double|bool|string|void)\\b"
+        },
+        {
+          "name": "entity.name.type.optional.aurora",
+          "match": "\\b(int|double|bool|string)\\?"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.aurora",
+          "match": "\\b(true|false|null)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.aurora",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.aurora",
+              "match": "\\\\(n|r|t|\\\\|\"|')"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.aurora",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.aurora",
+              "match": "\\\\(n|r|t|\\\\|\"|')"
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.aurora",
+          "match": "\\b\\d+\\.\\d+([eE][+-]?\\d+)?\\b"
+        },
+        {
+          "name": "constant.numeric.float.aurora",
+          "match": "\\b\\.\\d+([eE][+-]?\\d+)?\\b"
+        },
+        {
+          "name": "constant.numeric.integer.aurora",
+          "match": "\\b\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.hex.aurora",
+          "match": "\\b0[xX][0-9a-fA-F]+\\b"
+        },
+        {
+          "name": "constant.numeric.binary.aurora",
+          "match": "\\b0[bB][01]+\\b"
+        },
+        {
+          "name": "constant.numeric.octal.aurora",
+          "match": "\\b0[oO][0-7]+\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arithmetic.aurora",
+          "match": "\\+|\\-|\\*|\\/|%"
+        },
+        {
+          "name": "keyword.operator.comparison.aurora",
+          "match": "==|!=|<|>|<=|>="
+        },
+        {
+          "name": "keyword.operator.logical.aurora",
+          "match": "&&|\\|\\||!"
+        },
+        {
+          "name": "keyword.operator.range.aurora",
+          "match": "\\.\\."
+        },
+        {
+          "name": "keyword.operator.assignment.aurora",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.arrow.aurora",
+          "match": "->"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "entity.name.function.declaration.aurora",
+          "match": "(?<=fn\\s+)\\w+"
+        },
+        {
+          "name": "entity.name.function.extern.aurora",
+          "match": "(?<=extern\\s+)\\w+"
+        },
+        {
+          "name": "entity.name.function.call.aurora",
+          "match": "\\b\\w+(?=\\s*\\()"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.other.declaration.aurora",
+          "match": "(?<=(let|var)\\s+)\\w+"
+        },
+        {
+          "name": "variable.parameter.aurora",
+          "match": "\\b[a-zA-Z_]\\w*\\b(?=\\s*:)"
+        },
+        {
+          "name": "variable.other.aurora",
+          "match": "\\b[a-zA-Z_]\\w*\\b"
+        }
+      ]
+    }
+  }
+}
+

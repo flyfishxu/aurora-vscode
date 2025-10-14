@@ -394,6 +394,156 @@
       "}"
     ],
     "description": "Create a class with implicit constructor (no explicit constructor needed)"
+  },
+  "Array Definition": {
+    "prefix": "arr",
+    "body": [
+      "let ${1:arrayName} = [${2:1, 2, 3}]"
+    ],
+    "description": "Create an array literal"
+  },
+  "Stdlib Math - Absolute": {
+    "prefix": "abs",
+    "body": [
+      "absInt(${1:value})"
+    ],
+    "description": "Absolute value for integers"
+  },
+  "Stdlib Math - Min/Max": {
+    "prefix": "minmax",
+    "body": [
+      "minInt(${1:a}, ${2:b})",
+      "maxInt(${1:a}, ${2:b})"
+    ],
+    "description": "Get minimum/maximum of two integers"
+  },
+  "Stdlib Math - Factorial": {
+    "prefix": "factorial",
+    "body": [
+      "factorial(${1:n})"
+    ],
+    "description": "Calculate factorial"
+  },
+  "Stdlib Math - Fibonacci": {
+    "prefix": "fibonacci",
+    "body": [
+      "fibonacci(${1:n})"
+    ],
+    "description": "Calculate nth Fibonacci number"
+  },
+  "Stdlib Math - GCD/LCM": {
+    "prefix": "gcdlcm",
+    "body": [
+      "let ${1:g} = gcd(${2:a}, ${3:b})",
+      "let ${4:l} = lcm(${2:a}, ${3:b})"
+    ],
+    "description": "Greatest common divisor and least common multiple"
+  },
+  "Stdlib Math - IsPrime": {
+    "prefix": "isprime",
+    "body": [
+      "isPrime(${1:n})"
+    ],
+    "description": "Check if a number is prime"
+  },
+  "Stdlib Array - Sum": {
+    "prefix": "arrsum",
+    "body": [
+      "sumIntArray(${1:array}, ${2:length})"
+    ],
+    "description": "Sum all integers in an array"
+  },
+  "Stdlib Array - Min/Max": {
+    "prefix": "arrminmax",
+    "body": [
+      "minIntArray(${1:array}, ${2:length})",
+      "maxIntArray(${1:array}, ${2:length})"
+    ],
+    "description": "Find min/max value in array"
+  },
+  "Stdlib Array - Contains": {
+    "prefix": "arrcontains",
+    "body": [
+      "containsInt(${1:array}, ${2:length}, ${3:value})"
+    ],
+    "description": "Check if array contains a value"
+  },
+  "Stdlib Array - Sort": {
+    "prefix": "arrsort",
+    "body": [
+      "bubbleSortInt(${1:array}, ${2:length})"
+    ],
+    "description": "Sort an array in place"
+  },
+  "Stdlib Array - Reverse": {
+    "prefix": "arrrev",
+    "body": [
+      "reverseIntArray(${1:array}, ${2:length})"
+    ],
+    "description": "Reverse an array in place"
+  },
+  "Stdlib Array - Binary Search": {
+    "prefix": "arrbsearch",
+    "body": [
+      "binarySearchInt(${1:sortedArray}, ${2:length}, ${3:target})"
+    ],
+    "description": "Binary search in sorted array"
+  },
+  "Stdlib Bitwise - PopCount": {
+    "prefix": "popcount",
+    "body": [
+      "popCount(${1:value})"
+    ],
+    "description": "Count number of set bits"
+  },
+  "Stdlib Bitwise - IsPowerOfTwo": {
+    "prefix": "ispow2",
+    "body": [
+      "isPowerOfTwo(${1:value})"
+    ],
+    "description": "Check if value is power of 2"
+  },
+  "Stdlib Range - InRange": {
+    "prefix": "inrange",
+    "body": [
+      "inRangeInt(${1:value}, ${2:min}, ${3:max})"
+    ],
+    "description": "Check if value is in range [min, max]"
+  },
+  "Stdlib Range - Clamp": {
+    "prefix": "clamp",
+    "body": [
+      "clampInt(${1:value}, ${2:min}, ${3:max})"
+    ],
+    "description": "Clamp value between min and max"
+  },
+  "Stdlib Range - Lerp": {
+    "prefix": "lerp",
+    "body": [
+      "lerpDouble(${1:a}, ${2:b}, ${3:t})"
+    ],
+    "description": "Linear interpolation between two values"
+  },
+  "Stdlib Conversion - BoolToInt": {
+    "prefix": "b2i",
+    "body": [
+      "boolToInt(${1:boolValue})"
+    ],
+    "description": "Convert boolean to integer"
+  },
+  "Stdlib Conversion - Round": {
+    "prefix": "round",
+    "body": [
+      "roundToInt(${1:doubleValue})"
+    ],
+    "description": "Round double to integer"
+  },
+  "Stdlib Assert - AssertEq": {
+    "prefix": "asserteq",
+    "body": [
+      "assertEqInt(${1:actual}, ${2:expected})"
+    ],
+    "description": "Assert two integers are equal"
   }
 }
 

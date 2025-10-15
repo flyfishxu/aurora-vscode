@@ -2,7 +2,7 @@
   "name": "auroralang",
   "displayName": "AuroraLang",
   "description": "Language support for AuroraLang - A modern LLVM-powered language with package system and built-in functions",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "publisher": "auroralang",
   "icon": "images/icon.png",
   "engines": {

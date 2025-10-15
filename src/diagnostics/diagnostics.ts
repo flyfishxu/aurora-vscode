@@ -190,6 +190,54 @@ function checkCommonSyntaxIssues(document: vscode.TextDocument): vscode.Diagnost
         }
     }
     
+    // Check for unnecessary 'pub' modifiers in class members
+    diagnostics.push(...checkUnnecessaryAccessModifiers(lines));
+    
+    return diagnostics;
+}
+
+// Check for unnecessary access modifiers (class members are public by default)
+function checkUnnecessaryAccessModifiers(lines: string[]): vscode.Diagnostic[] {
+    const diagnostics: vscode.Diagnostic[] = [];
+    let inClass = false;
+    let braceDepth = 0;
+    
+    for (let lineNum = 0; lineNum < lines.length; lineNum++) {
+        const line = lines[lineNum];
+        const trimmed = line.trim();
+        
+        if (trimmed.startsWith('#') || trimmed === '') continue;
+        
+        // Track class scope
+        if (trimmed.match(/^class\s+\w+/)) {
+            inClass = true;
+        }
+        
+        // Track braces
+        for (const char of line) {
+            if (char === '{') braceDepth++;
+            else if (char === '}') {
+                braceDepth--;
+                if (braceDepth === 0 && inClass) {
+                    inClass = false;
+                }
+            }
+        }
+        
+        // Check for pub modifier in class members
+        if (inClass && trimmed.match(/^pub\s+(let|var|fn|constructor|static)/)) {
+            const pubIndex = line.indexOf('pub');
+            const range = new vscode.Range(lineNum, pubIndex, lineNum, pubIndex + 3);
+            const diagnostic = new vscode.Diagnostic(
+                range,
+                "Class members are public by default. The 'pub' modifier is unnecessary.",
+                vscode.DiagnosticSeverity.Hint
+            );
+            diagnostic.tags = [vscode.DiagnosticTag.Unnecessary];
+            diagnostics.push(diagnostic);
+        }
+    }
+    
     return diagnostics;
 }
 

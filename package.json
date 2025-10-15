@@ -219,6 +219,16 @@
           "type": "boolean",
           "default": true,
           "description": "Remove unnecessary semicolons when formatting (semicolons are optional in AuroraLang)"
+        },
+        "auroralang.lspServerPath": {
+          "type": "string",
+          "default": "",
+          "description": "Custom path to the aurora-lsp server executable. If not set, the extension will search common locations."
+        },
+        "auroralang.enableLSP": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Language Server Protocol for enhanced language features"
         }
       }
     }
@@ -242,7 +252,8 @@
     "@vscode/debugprotocol": "^1.59.0"
   },
   "dependencies": {
-    "@vscode/debugadapter": "^1.59.0"
+    "@vscode/debugadapter": "^1.59.0",
+    "vscode-languageclient": "^8.1.0"
   }
 }
 

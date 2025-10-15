@@ -1,7 +1,6 @@
 // Diagnostic utilities for AuroraLang
 
 import * as vscode from 'vscode';
-import { SemanticAnalyzer } from '../semantics/analyzer';
 import { parseCompilerOutput, runCompiler } from '../utils/compiler';
 
 export let diagnosticCollection: vscode.DiagnosticCollection;
@@ -11,20 +10,18 @@ export function initializeDiagnostics(context: vscode.ExtensionContext): void {
     context.subscriptions.push(diagnosticCollection);
 }
 
-// Perform all checks (syntax + semantic)
+// Perform basic checks (fallback mode only - when LSP unavailable)
 export function performAllChecks(document: vscode.TextDocument): void {
     const diagnostics: vscode.Diagnostic[] = [];
 
     // 1. Bracket matching
     diagnostics.push(...checkBracketMatching(document));
 
-    // 2. Semantic analysis (function calls, types, parameters)
-    const analyzer = new SemanticAnalyzer();
-    diagnostics.push(...analyzer.analyze(document));
-
-    // 3. Common syntax issues
+    // 2. Common syntax issues
     diagnostics.push(...checkCommonSyntaxIssues(document));
 
+    // Note: Semantic analysis removed - handled by LSP server when available
+    
     diagnosticCollection.set(document.uri, diagnostics);
 }
 

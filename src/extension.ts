@@ -9,41 +9,51 @@ import { AuroraDefinitionProvider } from './providers/definitionProvider';
 import { AuroraDocumentSymbolProvider } from './providers/symbolProvider';
 import { AuroraSignatureHelpProvider } from './providers/signatureHelpProvider';
 import { AuroraFormattingProvider } from './providers/formattingProvider';
+import { activateLSP, deactivateLSP, isLSPActive } from './lspClient';
 
 let outputChannel: vscode.OutputChannel;
 
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
     console.log('AuroraLang extension is now active!');
 
     // Initialize output channel
     outputChannel = vscode.window.createOutputChannel('AuroraLang');
     context.subscriptions.push(outputChannel);
 
-    // Initialize diagnostics
-    initializeDiagnostics(context);
+    // Try to activate LSP first
+    await activateLSP(context);
 
-    // Register commands
+    // If LSP is not active, use simplified fallback providers
+    if (!isLSPActive()) {
+        outputChannel.appendLine('LSP not available, using fallback providers');
+        outputChannel.appendLine('Note: Fallback mode provides basic syntax highlighting only');
+        outputChannel.appendLine('For full features, build and configure aurora-lsp server');
+        
+        // Only basic diagnostics in fallback mode
+        initializeDiagnostics(context);
+        
+        // Simplified fallback providers (basic completion only)
+        registerFallbackProviders(context);
+        
+        // Basic document listeners
+        setupDocumentListeners(context);
+    }
+
+    // Register commands (always needed)
     initializeCommands(context, outputChannel);
-
-    // Register language providers
-    registerLanguageProviders(context);
-
-    // Setup document listeners
-    setupDocumentListeners(context);
-
-    // Check currently open documents
-    vscode.workspace.textDocuments.forEach(document => {
-        if (document.languageId === 'aurora') {
-            performAllChecks(document);
-        }
-    });
 
     outputChannel.appendLine('AuroraLang extension activated successfully!');
     outputChannel.appendLine('Features: Syntax highlighting, IntelliSense, Real-time Diagnostics, Formatting');
-    outputChannel.appendLine('Semantic analysis: Function calls, type checking, parameter validation');
+    if (isLSPActive()) {
+        outputChannel.appendLine('LSP Mode: Using Aurora Language Server for enhanced language features');
+    } else {
+        outputChannel.appendLine('Fallback Mode: Using built-in providers');
+    }
 }
 
-export function deactivate() {
+export async function deactivate() {
+    await deactivateLSP();
+    
     if (outputChannel) {
         outputChannel.dispose();
     }
@@ -52,35 +62,14 @@ export function deactivate() {
     }
 }
 
-function registerLanguageProviders(context: vscode.ExtensionContext): void {
+// Simplified fallback providers (only basic features when LSP unavailable)
+function registerFallbackProviders(context: vscode.ExtensionContext): void {
     const providers = [
-        // Completion provider
+        // Basic keyword completion only
         vscode.languages.registerCompletionItemProvider(
             'aurora',
             new AuroraCompletionProvider(),
-            '.', ':', '>'
-        ),
-
-        // Hover provider
-        vscode.languages.registerHoverProvider('aurora', new AuroraHoverProvider()),
-
-        // Definition provider
-        vscode.languages.registerDefinitionProvider('aurora', new AuroraDefinitionProvider()),
-
-        // Document symbol provider
-        vscode.languages.registerDocumentSymbolProvider('aurora', new AuroraDocumentSymbolProvider()),
-
-        // Signature help provider
-        vscode.languages.registerSignatureHelpProvider(
-            'aurora',
-            new AuroraSignatureHelpProvider(),
-            '(', ','
-        ),
-
-        // Document formatter
-        vscode.languages.registerDocumentFormattingEditProvider(
-            'aurora',
-            new AuroraFormattingProvider()
+            '.'
         )
     ];
 

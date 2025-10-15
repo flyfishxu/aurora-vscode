@@ -57,7 +57,7 @@
         },
         {
           "name": "keyword.other.aurora",
-          "match": "\\b(struct|enum|type|import|export|module|new|this)\\b"
+          "match": "\\b(struct|enum|type|import|export|module|package|new|this)\\b"
         }
       ]
     },
